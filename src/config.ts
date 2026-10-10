@@ -118,15 +118,15 @@ export async function ensureApiKey(rl: any): Promise<string> {
   const boxWidth = 68;
 
   console.log();
-  console.log(chalk.hex('#F25B46')(`  ╭─ 🔑 OpenRouter API Key Setup ${'─'.repeat(boxWidth - 31)}╮`));
-  console.log(chalk.hex('#F25B46')('  │') + chalk.bold.white(' SudoCode requires a free OpenRouter API key to power AI models.  ') + chalk.hex('#F25B46')('│'));
-  console.log(chalk.hex('#F25B46')('  │') + ' '.repeat(boxWidth - 2) + chalk.hex('#F25B46')('│'));
-  console.log(chalk.hex('#F25B46')('  │') + chalk.white('  🔗 Get your free key here:                                       ') + chalk.hex('#F25B46')('│'));
-  console.log(chalk.hex('#F25B46')('  │') + chalk.cyan.underline(`     ${OPENROUTER_KEYS_URL.padEnd(boxWidth - 7)}`) + chalk.hex('#F25B46')('│'));
-  console.log(chalk.hex('#F25B46')('  │') + ' '.repeat(boxWidth - 2) + chalk.hex('#F25B46')('│'));
-  console.log(chalk.hex('#F25B46')('  │') + chalk.dim('  • Type ') + chalk.yellow.bold('open') + chalk.dim(' or ') + chalk.yellow.bold('o') + chalk.dim(' to open the link directly in your browser.   ') + chalk.hex('#F25B46')('│'));
-  console.log(chalk.hex('#F25B46')('  │') + chalk.dim('  • Or paste your existing OpenRouter API key below.             ') + chalk.hex('#F25B46')('│'));
-  console.log(chalk.hex('#F25B46')(`  ╰${'─'.repeat(boxWidth - 2)}╯`));
+  console.log(chalk.hex('#b82be2')(`  ╭─ 🔑 OpenRouter API Key Setup ${'─'.repeat(boxWidth - 31)}╮`));
+  console.log(chalk.hex('#b82be2')('  │') + chalk.bold.white(' SudoCode requires a free OpenRouter API key to power AI models.  ') + chalk.hex('#b82be2')('│'));
+  console.log(chalk.hex('#b82be2')('  │') + ' '.repeat(boxWidth - 2) + chalk.hex('#b82be2')('│'));
+  console.log(chalk.hex('#b82be2')('  │') + chalk.white('  🔗 Get your free key here:                                       ') + chalk.hex('#b82be2')('│'));
+  console.log(chalk.hex('#b82be2')('  │') + chalk.cyan.underline(`     ${OPENROUTER_KEYS_URL.padEnd(boxWidth - 7)}`) + chalk.hex('#b82be2')('│'));
+  console.log(chalk.hex('#b82be2')('  │') + ' '.repeat(boxWidth - 2) + chalk.hex('#b82be2')('│'));
+  console.log(chalk.hex('#b82be2')('  │') + chalk.dim('  • Type ') + chalk.yellow.bold('open') + chalk.dim(' or ') + chalk.yellow.bold('o') + chalk.dim(' to open the link directly in your browser.   ') + chalk.hex('#b82be2')('│'));
+  console.log(chalk.hex('#b82be2')('  │') + chalk.dim('  • Or paste your existing OpenRouter API key below.             ') + chalk.hex('#b82be2')('│'));
+  console.log(chalk.hex('#b82be2')(`  ╰${'─'.repeat(boxWidth - 2)}╯`));
   console.log();
 
   while (true) {

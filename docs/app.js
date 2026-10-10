@@ -85,7 +85,7 @@ function showToast(msg) {
 
 // ─── Terminal Simulator (Claude Code Realtime Flow) ─────────────────────────
 
-const STARBURST_FRAMES = ['✶', '✷', '✸', '✹', '✺', '✻', '✼', '✽', '✳'];
+const STARBURST_FRAMES = ['·', '⋄', '◇', '◈', '◆', '◈', '◇', '⋄'];
 
 function startTerminalSimulation() {
   const streamArea = document.getElementById('term-stream-area');
@@ -115,7 +115,7 @@ function startTerminalSimulation() {
       thinkingRow.className = 'thinking-line';
       thinkingRow.id = 'thinking-spinner-row';
       thinkingRow.innerHTML = `
-        <span class="starburst-icon" id="burst-glyph">✹</span>
+        <span class="starburst-icon" id="burst-glyph">◈</span>
         <span>Thinking... <span class="muted-text" id="burst-timer">(0.0s)</span></span>
       `;
       streamArea.appendChild(thinkingRow);
@@ -208,7 +208,7 @@ function renderToolsFlow(container) {
           const footer = document.createElement('div');
           footer.className = 'terminal-turn-footer';
           footer.innerHTML = `
-            <span class="footer-burst">✻</span> SudoCode completed in <span style="color: #FAFAFA; font-weight: 500;">2.1s</span> · <span class="coral-text">3 tools</span> executed
+            <span class="footer-burst">◈</span> SudoCode completed in <span style="color: #FAFAFA; font-weight: 500;">2.1s</span> · <span class="coral-text">3 tools</span> executed
           `;
           container.appendChild(footer);
 

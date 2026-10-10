@@ -31,13 +31,13 @@
 
   --radius: 0.5rem;                    /* 8px */
 
-  /* Claude Brand Accent Tokens */
-  --coral: #F25B46;
-  --terracotta: #D97757;
+  /* SudoCode Brand Accent Tokens (#8A2BE2) */
+  --coral: #b82be2;
+  --terracotta: #b82be2;
   --emerald: #34D399;
   --cyan: #38BDF8;
   --amber: #FBBF24;
-  --purple: #C084FC;
+  --purple: #b82be2;
 
   --font-sans: 'Geist', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'Geist Mono', 'Fira Code', monospace;
@@ -71,7 +71,7 @@ body {
   position: fixed;
   inset: 0;
   background-image: 
-    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(242, 91, 70, 0.12), transparent),
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(184, 43, 226, 0.22), transparent),
     radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.03), transparent 70%);
   pointer-events: none;
   z-index: 0;
@@ -430,8 +430,8 @@ body {
   font-family: var(--font-mono);
   font-weight: 600;
   color: var(--coral);
-  background-color: rgba(242, 91, 70, 0.1);
-  border: 1px solid rgba(242, 91, 70, 0.25);
+  background-color: rgba(184, 43, 226, 0.12);
+  border: 1px solid rgba(184, 43, 226, 0.3);
   padding: 3px 10px;
   border-radius: 9999px;
   margin-bottom: 12px;
@@ -554,6 +554,11 @@ body {
   user-select: none;
 }
 
+.banner-mascot .mascot-eye {
+  visibility: hidden;
+  color: #07090E;
+}
+
 .banner-details {
   display: flex;
   flex-direction: column;
@@ -603,7 +608,7 @@ body {
 .thinking-line {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
   padding-left: 8px;
   color: hsl(var(--foreground));
 }
@@ -611,13 +616,32 @@ body {
 .starburst-icon {
   color: var(--coral);
   font-weight: 800;
-  display: inline-block;
-  animation: spin-burst 1s infinite linear;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.1rem; /* Prominent Double Size */
+  line-height: 1;
+  vertical-align: middle;
+  animation: diamond-popup-popdown 0.8s infinite ease-in-out;
+  transform-origin: center;
 }
 
-@keyframes spin-burst {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+@keyframes diamond-popup-popdown {
+  0% {
+    transform: scale(0.65);
+    filter: drop-shadow(0 0 1px rgba(184, 43, 226, 0.2));
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.4); /* Pop-up peak! */
+    filter: drop-shadow(0 0 16px rgba(226, 123, 255, 0.95));
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.65); /* Pop-down */
+    filter: drop-shadow(0 0 1px rgba(184, 43, 226, 0.2));
+    opacity: 0.7;
+  }
 }
 
 .tool-line-block {
@@ -649,13 +673,38 @@ body {
   padding-left: 8px;
   padding-top: 10px;
   border-top: 1px dashed hsl(var(--border));
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   color: hsl(var(--muted-foreground));
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .footer-burst {
   color: var(--coral);
   font-weight: 800;
+  font-size: 1.65rem; /* Double size */
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 4px;
+  vertical-align: middle;
+  animation: diamond-glow 2.4s infinite ease-in-out;
+  transform-origin: center;
+}
+
+@keyframes diamond-glow {
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 2px rgba(184, 43, 226, 0.4));
+    opacity: 0.95;
+  }
+  50% {
+    transform: scale(1.08);
+    filter: drop-shadow(0 0 7px rgba(184, 43, 226, 0.9));
+    opacity: 1;
+  }
 }
 
 /* ─── shadcn Bento Grid (Features) ────────────────────────────────────────── */
@@ -764,10 +813,10 @@ body {
   font-size: 0.8125rem;
   font-weight: 600;
   color: var(--coral);
-  background-color: rgba(242, 91, 70, 0.1);
+  background-color: rgba(184, 43, 226, 0.12);
   padding: 2px 7px;
   border-radius: 4px;
-  border: 1px solid rgba(242, 91, 70, 0.2);
+  border: 1px solid rgba(184, 43, 226, 0.25);
 }
 
 .status-badge {

@@ -5,8 +5,8 @@ import path from 'path';
 
 // ─── Claude Theme Color Palette ───────────────────────────────────────────────
 
-export const CLAUDE_CORAL = '#F25B46';       // Claude signature bright coral
-export const CLAUDE_TERRACOTTA = '#D97757';  // Warm terracotta tone
+export const CLAUDE_CORAL = '#b82be2';       // SudoCode signature purple
+export const CLAUDE_TERRACOTTA = '#b82be2';  // SudoCode signature purple
 export const CLAUDE_CREAM = '#F8FAFC';       // Crisp primary text
 export const CLAUDE_MUTED = '#94A3B8';       // Soft gray meta info
 export const CLAUDE_DARK = '#151515';        // Mascot eye / dark contrast
@@ -53,7 +53,7 @@ export function printBanner(modelName: string, cwd: string) {
   const mascot = getMascotLines();
   const folderName = path.basename(cwd) || cwd;
   const branch = getGitBranch();
-  const branchInfo = branch ? ` (${chalk.hex(CLAUDE_TERRACOTTA)(branch)})` : '';
+  const branchInfo = branch ? ` ${chalk.dim('(')}${chalk.bold.hex(CLAUDE_TERRACOTTA)(branch)}${chalk.dim(')')}` : '';
 
   const sideInfo = [
     chalk.bold.hex(CLAUDE_CORAL)('  ⚡ SudoCode') + chalk.dim(' v1.1.0') + chalk.hex(CLAUDE_MUTED)(' — Terminal Coding Agent (Claude-Mode)'),
@@ -78,15 +78,25 @@ export function printBanner(modelName: string, cwd: string) {
 // ─── Claude Starburst Animated Spinner ───────────────────────────────────────
 
 export const STARBURST_FRAMES = [
-  '✶', // 6-pointed star
-  '✷', // 8-pointed star
-  '✸', // heavy 8-pointed star
-  '✹', // 12-pointed star (Claude burst)
-  '✺', // 16-pointed asterisk
-  '✻', // teardrop asterisk
-  '✼', // open teardrop asterisk
-  '✽', // heavy teardrop asterisk
-  '✳', // 8-spoked asterisk
+  '·', // tiny dot
+  '⋄', // small diamond
+  '◇', // medium hollow diamond
+  '◈', // double diamond box
+  '◆', // filled heavy diamond (peak pop-up)
+  '◈', // double diamond box
+  '◇', // medium hollow diamond
+  '⋄', // small diamond
+];
+
+export const POPUP_FRAMES = [
+  chalk.dim.hex('#7a1db0')('·'),
+  chalk.hex('#8a1cb5')('⋄'),
+  chalk.hex('#a824db')('◇'),
+  chalk.bold.hex('#b82be2')('◈'),
+  chalk.bold.hex('#e27bff')('◆'),
+  chalk.bold.hex('#b82be2')('◈'),
+  chalk.hex('#a824db')('◇'),
+  chalk.hex('#8a1cb5')('⋄'),
 ];
 
 export class ClaudeSpinner {
@@ -116,9 +126,9 @@ export class ClaudeSpinner {
 
     this.render();
     this.timer = setInterval(() => {
-      this.frameIndex = (this.frameIndex + 1) % STARBURST_FRAMES.length;
+      this.frameIndex = (this.frameIndex + 1) % POPUP_FRAMES.length;
       this.render();
-    }, 85);
+    }, 90);
 
     return this;
   }
@@ -131,10 +141,10 @@ export class ClaudeSpinner {
 
   private render() {
     const elapsedSec = ((Date.now() - this.startTime) / 1000).toFixed(1);
-    const symbol = chalk.bold.hex(this.colorHex)(STARBURST_FRAMES[this.frameIndex]);
+    const frameSymbol = POPUP_FRAMES[this.frameIndex % POPUP_FRAMES.length];
     const text = chalk.hex(CLAUDE_CREAM)(this.message);
     const elapsed = chalk.dim(`(${elapsedSec}s)`);
-    const line = `  ${symbol} ${text} ${elapsed}`;
+    const line = `  ${frameSymbol}  ${text} ${elapsed}`;
 
     if (process.stdout.isTTY) {
       readline.clearLine(process.stdout, 0);
@@ -292,12 +302,12 @@ export async function askClaudePermission(
 
 export function renderTurnFooter(durationMs: number, toolCount: number) {
   const durationSec = (durationMs / 1000).toFixed(1);
-  const star = chalk.bold.hex(CLAUDE_CORAL)('✻');
+  const star = chalk.bold.hex(CLAUDE_CORAL)('◈');
   const durationText = `${durationSec}s`;
   const toolsText = toolCount === 1 ? '1 tool' : `${toolCount} tools`;
 
   console.log(
-    `\n  ${star} ${chalk.dim(`SudoCode completed in ${chalk.hex(CLAUDE_CREAM)(durationText)} · ${chalk.hex(CLAUDE_TERRACOTTA)(toolsText)} executed`)}\n`
+    `\n  ${star}  ${chalk.dim(`SudoCode completed in ${chalk.hex(CLAUDE_CREAM)(durationText)} · ${chalk.hex(CLAUDE_TERRACOTTA)(toolsText)} executed`)}\n`
   );
 }
 
@@ -306,7 +316,7 @@ export function renderTurnFooter(durationMs: number, toolCount: number) {
 export function renderPromptString(cwd: string, planMode: boolean, autoApprove: boolean): string {
   const folder = path.basename(cwd) || cwd;
   const branch = getGitBranch();
-  const branchTag = branch ? chalk.dim(` (${chalk.hex(CLAUDE_TERRACOTTA)(branch)})`) : '';
+  const branchTag = branch ? ` ${chalk.dim('(')}${chalk.bold.hex(CLAUDE_TERRACOTTA)(branch)}${chalk.dim(')')}` : '';
   const planTag = planMode ? chalk.hex(CLAUDE_ERROR)(' [plan]') : '';
   const autoTag = autoApprove ? chalk.hex(CLAUDE_WARN)(' [auto]') : '';
   const chevron = chalk.bold.hex(CLAUDE_CORAL)('❯');
