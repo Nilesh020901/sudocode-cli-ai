@@ -4,6 +4,16 @@ import readline from 'readline';
 import chalk from 'chalk';
 import { openai, DEFAULT_MODEL, MAX_TOOL_OUTPUT, MAX_CONTEXT_CHARS, API_MAX_RETRIES } from './config.js';
 import { Tool, ToolSchema, truncateOutput, ExecuteCommandTool } from './tools.js';
+import {
+  createSpinner,
+  CLAUDE_CORAL,
+  CLAUDE_WARN,
+  CLAUDE_ERROR,
+  askClaudePermission,
+  renderToolResult,
+  renderTurnFooter,
+  formatToolSignature
+} from './ui.js';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -76,22 +86,6 @@ export function getSystemPrompt(): string {
 `;
 }
 
-// ─── User Approval ───────────────────────────────────────────────────────────
-
-async function askUserApproval(rl: any, toolName: string, args: any): Promise<boolean> {
-  const summary = JSON.stringify(args, null, 2);
-  const display = summary.length > 500
-    ? summary.substring(0, 500) + '\n  ... [truncated]'
-    : summary;
-  const prompt = chalk.yellow(`\n⚠️  Approve ${chalk.bold(toolName)}?\n${display}\n(y/N): `);
-  try {
-    const answer = await rl.question(prompt);
-    return answer.trim().toLowerCase() === 'y';
-  } catch {
-    return false;
-  }
-}
-
 // ─── Stream Parser ───────────────────────────────────────────────────────────
 
 async function parseStream(
@@ -138,7 +132,7 @@ async function callLLMWithRetry(
   messages: ChatMessage[],
   toolSchemas: ToolSchema[]
 ): Promise<any> {
-  let lastError: Error | null = null;
+  let lastError: any = null;
 
   for (let attempt = 1; attempt <= API_MAX_RETRIES; attempt++) {
     try {
@@ -226,6 +220,8 @@ export async function runAgent(
 
   const toolSchemas: ToolSchema[] = tools.map(t => t.toSchema());
   let lastContent = '';
+  const turnStartTime = Date.now();
+  let totalToolsRun = 0;
 
   for (let turn = 1; turn <= config.maxIterations; turn++) {
     // Auto-compact if context is getting large
@@ -236,7 +232,7 @@ export async function runAgent(
       messages.length = 0;
       messages.push(...compacted);
       const saved = contextSize - estimateContextSize(messages);
-      console.log(chalk.dim(`📦 Context compacted: ${before} → ${messages.length} messages (~${Math.round(saved / 1000)}K chars freed)`));
+      console.log(chalk.dim(`  📦 Context compacted: ${before} → ${messages.length} messages (~${Math.round(saved / 1000)}K chars freed)`));
     }
 
     // Refresh system prompt each turn to reflect current cwd
@@ -244,20 +240,33 @@ export async function runAgent(
       messages[0].content = getSystemPrompt();
     }
 
-    console.log(chalk.hex('#6366F1')(`\n[Turn ${turn}/${config.maxIterations}]`));
+    if (turn > 1) {
+      console.log(chalk.dim(`\n  Turn ${turn}/${config.maxIterations}`));
+    }
+
+    const thinkSpinner = createSpinner('Thinking...');
+    thinkSpinner.start();
 
     let stream;
     try {
       stream = await callLLMWithRetry(messages, toolSchemas);
     } catch (err: any) {
-      console.error(chalk.red(`\n❌ API Error: ${err.message}`));
+      thinkSpinner.fail(`API Error: ${err.message}`);
       return `Error: ${err.message}`;
     }
 
-    process.stdout.write(chalk.green(''));
+    let hasStoppedSpinner = false;
+    process.stdout.write(chalk.hex('#F1F5F9')(''));
     const { content, toolCalls } = await parseStream(stream, (chunk) => {
-      process.stdout.write(chalk.green(chunk));
+      if (!hasStoppedSpinner) {
+        thinkSpinner.stop();
+        hasStoppedSpinner = true;
+      }
+      process.stdout.write(chalk.hex('#F1F5F9')(chunk));
     });
+    if (!hasStoppedSpinner) {
+      thinkSpinner.stop();
+    }
     if (content) console.log();
 
     lastContent = content;
@@ -294,7 +303,7 @@ export async function runAgent(
 
         // Plan Mode: block write tools
         if (config.planMode && !tool.isReadOnly) {
-          console.log(chalk.red(`⚠️  Blocked ${tool.name} (Plan Mode active)`));
+          console.log(`  ${chalk.hex(CLAUDE_WARN)('⚠️')}  Blocked ${chalk.bold(tool.name)} (Plan Mode active)`);
           messages.push({
             role: 'tool', tool_call_id: tc.id, name: tool.name,
             content: 'Plan Mode is active. Write tools are disabled. Present your plan to the user.'
@@ -311,29 +320,45 @@ export async function runAgent(
         }
 
         if (needsApproval) {
-          const approved = rl ? await askUserApproval(rl, tool.name, args) : true;
-          if (!approved) {
-            console.log(chalk.red(`❌ Denied by user.`));
-            messages.push({
-              role: 'tool', tool_call_id: tc.id, name: tool.name,
-              content: 'Execution denied by user.'
-            });
-            continue;
+          if (rl) {
+            const { approved, alwaysAllow } = await askClaudePermission(rl, tool.name, args);
+            if (alwaysAllow) {
+              config.autoApprove = true;
+              console.log(chalk.hex(CLAUDE_WARN)('  ⚡ Auto-approval enabled for this session.'));
+            }
+            if (!approved) {
+              console.log(`  ${chalk.hex(CLAUDE_ERROR)('✖')} Execution denied by user.`);
+              messages.push({
+                role: 'tool', tool_call_id: tc.id, name: tool.name,
+                content: 'Execution denied by user.'
+              });
+              continue;
+            }
           }
         }
 
-        console.log(chalk.hex('#6366F1')(`🔧 ${tool.name}`));
+        const sig = formatToolSignature(tool.name, args);
+        const toolSpinner = createSpinner(`Running ${sig}...`);
+        toolSpinner.start();
 
+        const t0 = Date.now();
         let result = '';
+        let success = true;
         try {
           result = await tool.execute(args);
+          toolSpinner.stop();
         } catch (execErr: any) {
+          toolSpinner.stop();
+          success = false;
           result = `Error executing ${tool.name}: ${execErr.message}`;
         }
+        const toolDuration = Date.now() - t0;
+        totalToolsRun++;
+
+        renderToolResult(tool.name, args, result, toolDuration, success);
 
         // Truncate tool output before adding to context
         result = truncateOutput(result, MAX_TOOL_OUTPUT);
-        console.log(chalk.dim(`   ✓ done (${result.length} chars)`));
 
         messages.push({
           role: 'tool', tool_call_id: tc.id, name: tool.name,
@@ -341,11 +366,13 @@ export async function runAgent(
         });
       }
     } else {
-      // No tool calls — agent is done for this user turn
+      // No tool calls — agent completed turn
       messages.push(assistantMessage);
+      renderTurnFooter(Date.now() - turnStartTime, totalToolsRun);
       return content;
     }
   }
 
+  renderTurnFooter(Date.now() - turnStartTime, totalToolsRun);
   return lastContent || 'Execution limit reached.';
 }

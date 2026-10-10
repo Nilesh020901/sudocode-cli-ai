@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SudoCode — Terminal AI Coding Agent</title>
+  <meta name="description" content="Claude-inspired terminal coding agent with retro 8-bit aesthetic, starburst thinking loader, tree-node execution, and native MCP support. Built for speed and precision.">
+  <meta name="theme-color" content="#09090b">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="SudoCode — Terminal AI Coding Agent">
+  <meta property="og:description" content="Claude-inspired terminal coding agent built for modern engineering workflows.">
+  <meta property="og:type" content="website">
+
+  <!-- Geist & Inter Fonts (shadcn exact typography) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600;700&family=Geist:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="page-background"></div>
+
+  <!-- ─── Navbar (shadcn Header) ─────────────────────────────────────────── -->
+  <header class="site-header">
+    <div class="header-container">
+      <div class="header-left">
+        <a href="#hero" class="brand-link" id="brand-link">
+          <span class="brand-mascot-square">
+            <span class="pixel-eye eye-left"></span>
+            <span class="pixel-eye eye-right"></span>
+          </span>
+          <span class="brand-title">SudoCode</span>
+          <span class="badge-version">v1.1.0</span>
+        </a>
+
+        <nav class="header-nav">
+          <a href="#features" class="nav-item">Features</a>
+          <a href="#demo" class="nav-item">Terminal</a>
+          <a href="#commands" class="nav-item">Commands</a>
+          <a href="#quickstart" class="nav-item">Docs</a>
+        </nav>
+      </div>
+
+      <div class="header-right">
+        <a href="https://github.com/Nilesh020901/sudocode-cli-ai" target="_blank" rel="noopener noreferrer" class="btn-github-pill" id="btn-github-nav">
+          <i data-lucide="github" class="icon-sm"></i>
+          <span>GitHub</span>
+          <span class="star-badge">★ Star</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ─── Hero Section ──────────────────────────────────────────────────── -->
+    <section class="hero-section" id="hero">
+      <div class="content-container hero-content">
+        <!-- shadcn Pill Announcement Badge -->
+        <a href="https://github.com/Nilesh020901/sudocode-cli-ai/releases" class="announcement-pill" target="_blank" rel="noopener">
+          <span class="pill-tag">New</span>
+          <span class="pill-text">Claude Code aesthetic, starburst loader & MCP support</span>
+          <i data-lucide="chevron-right" class="icon-xs"></i>
+        </a>
+
+        <h1 class="hero-headline">
+          Build software at<br>
+          <span class="headline-gradient">terminal velocity.</span>
+        </h1>
+
+        <p class="hero-subline">
+          An open-source terminal coding agent engineered for developers. Powered by 8-bit retro art, 
+          real-time Claude starburst thinking loaders, tree-node execution trees, and native MCP protocol.
+        </p>
+
+        <!-- shadcn Code Install Bar -->
+        <div class="install-bar-container">
+          <div class="install-bar" id="install-bar">
+            <span class="prompt-dollar">$</span>
+            <code class="code-snippet" id="install-code">npx sudocode-ai</code>
+            <button class="btn-copy-code" id="btn-copy-install" aria-label="Copy npx command">
+              <i data-lucide="copy" class="icon-xs" id="copy-icon"></i>
+              <span id="copy-text">Copy</span>
+            </button>
+          </div>
+          <div class="install-subtext">
+            <span>Runs instantly via Node.js 18+. Zero installation required.</span>
+          </div>
+        </div>
+
+        <div class="hero-cta-group">
+          <a href="#demo" class="btn btn-primary" id="btn-get-started">
+            <span>Explore Terminal Demo</span>
+            <i data-lucide="arrow-right" class="icon-xs"></i>
+          </a>
+          <a href="https://github.com/Nilesh020901/sudocode-cli-ai" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+            <i data-lucide="github" class="icon-xs"></i>
+            <span>View Repository</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── Terminal Window (Interactive Live Demo) ───────────────────────── -->
+    <section class="demo-section" id="demo">
+      <div class="content-container">
+        <div class="section-title-wrap">
+          <h2 class="section-heading">Claude Code CLI in Action</h2>
+          <p class="section-subheading">A modern terminal interface designed for flow, speed, and clean output.</p>
+        </div>
+
+        <!-- shadcn Card Terminal Wrapper -->
+        <div class="terminal-card">
+          <!-- Terminal Titlebar -->
+          <div class="terminal-header">
+            <div class="window-controls">
+              <span class="window-dot red"></span>
+              <span class="window-dot yellow"></span>
+              <span class="window-dot green"></span>
+            </div>
+            <div class="window-title">
+              <i data-lucide="terminal" class="icon-xs window-icon"></i>
+              <span>sudocode-ai — bash — 110x35</span>
+            </div>
+            <div class="window-actions">
+              <button class="btn-replay" id="btn-replay-demo" title="Replay terminal animation">
+                <i data-lucide="rotate-ccw" class="icon-xs"></i>
+                <span>Replay</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Terminal Canvas -->
+          <div class="terminal-body" id="terminal-screen">
+            <!-- 8-Bit Mascot Startup Banner -->
+            <div class="terminal-banner">
+              <pre class="banner-mascot" id="mascot-pixel-art">
+    ████████████████
+    ████████████████
+████████████████████████
+████████████████████████
+    ████████████████
+    ████████████████
+    ██  ██    ██  ██
+    ██  ██    ██  ██</pre>
+              <div class="banner-details">
+                <div class="banner-header-title">⚡ SudoCode <span class="muted-text">v1.1.0 — Terminal Coding Agent</span></div>
+                <div class="banner-rule">─────────────────────────────────────────────────────</div>
+                <div class="banner-row"><span class="row-label">Model:</span> <span class="coral-text">anthropic/claude-3.5-sonnet</span></div>
+                <div class="banner-row"><span class="row-label">Workspace:</span> <span class="cyan-text">sudocode</span> <span class="muted-text">(main) · D:/sudocode</span></div>
+                <div class="banner-row"><span class="row-label">Status:</span> <span class="emerald-text">● Ready to code</span></div>
+                <div class="banner-rule">─────────────────────────────────────────────────────</div>
+                <div class="banner-row muted-text">Commands: <span class="coral-text">/help</span> · <span class="coral-text">/plan</span> · <span class="coral-text">/auto</span> · <span class="coral-text">/status</span> · <span class="coral-text">/compact</span></div>
+              </div>
+            </div>
+
+            <!-- Interactive Simulation Output -->
+            <div class="terminal-stream" id="term-stream-area">
+              <!-- Dynamically populated via app.js -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── Features (shadcn Bento Grid) ──────────────────────────────────── -->
+    <section class="features-section" id="features">
+      <div class="content-container">
+        <div class="section-title-wrap">
+          <div class="tag-badge">Features</div>
+          <h2 class="section-heading">Engineered for developer bliss</h2>
+          <p class="section-subheading">Precision tools, clean outputs, and native protocol integration.</p>
+        </div>
+
+        <div class="bento-grid">
+          <!-- Card 1 -->
+          <div class="bento-card">
+            <div class="card-icon-pill">
+              <i data-lucide="sparkles" class="icon-md coral-icon"></i>
+            </div>
+            <h3 class="card-title">Retro Mascot & Claude Palette</h3>
+            <p class="card-desc">
+              8-bit coral mascot coupled with high-contrast terracotta accents and dark zinc terminal formatting.
+            </p>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="bento-card">
+            <div class="card-icon-pill">
+              <i data-lucide="loader-2" class="icon-md coral-icon"></i>
+            </div>
+            <h3 class="card-title">Live Starburst Thinking Loader</h3>
+            <p class="card-desc">
+              Pulsing multi-ray starburst animation with live seconds timer during model thinking and tool execution.
+            </p>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="bento-card">
+            <div class="card-icon-pill">
+              <i data-lucide="git-branch" class="icon-md coral-icon"></i>
+            </div>
+            <h3 class="card-title">Tree-Node Tool Executions</h3>
+            <p class="card-desc">
+              Clean <code>● Tool() ⎿ Output</code> formatting keeps tool progress clear without cluttering your workspace.
+            </p>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="bento-card">
+            <div class="card-icon-pill">
+              <i data-lucide="shield-check" class="icon-md coral-icon"></i>
+            </div>
+            <h3 class="card-title">Plan Mode & Safety Approvals</h3>
+            <p class="card-desc">
+              Dry-run safe architecture planning with <code>/plan</code>, or toggle session-wide auto-approvals with <code>/auto</code>.
+            </p>
+          </div>
+
+          <!-- Card 5 -->
+          <div class="bento-card">
+            <div class="card-icon-pill">
+              <i data-lucide="boxes" class="icon-md coral-icon"></i>
+            </div>
+            <h3 class="card-title">Model Context Protocol (MCP)</h3>
+            <p class="card-desc">
+              Connect external databases, APIs, and specialized CLI tools directly through standard <code>mcp_config.json</code>.
+            </p>
+          </div>
+
+          <!-- Card 6 -->
+          <div class="bento-card">
+            <div class="card-icon-pill">
+              <i data-lucide="layers" class="icon-md coral-icon"></i>
+            </div>
+            <h3 class="card-title">Auto Context Compaction</h3>
+            <p class="card-desc">
+              Intelligent context summarization kicks in automatically when token limits approach, preserving tokens and cost.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── Slash Commands (shadcn Table) ─────────────────────────────────── -->
+    <section class="commands-section" id="commands">
+      <div class="content-container">
+        <div class="section-title-wrap">
+          <div class="tag-badge">Productivity</div>
+          <h2 class="section-heading">Built-in Slash Commands</h2>
+          <p class="section-subheading">Fine-grained control over models, tools, and token contexts.</p>
+        </div>
+
+        <div class="table-container">
+          <table class="shadcn-table">
+            <thead>
+              <tr>
+                <th style="width: 180px;">Command</th>
+                <th style="width: 220px;">Category</th>
+                <th>Description & Functionality</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code class="code-pill">/plan</code></td>
+                <td><span class="status-badge badge-purple">Safety Mode</span></td>
+                <td>Blocks all write tools for risk-free architectural and planning passes.</td>
+              </tr>
+              <tr>
+                <td><code class="code-pill">/auto</code></td>
+                <td><span class="status-badge badge-amber">Execution</span></td>
+                <td>Executes write tools and shell commands without requiring interactive approval.</td>
+              </tr>
+              <tr>
+                <td><code class="code-pill">/status</code></td>
+                <td><span class="status-badge badge-zinc">Inspection</span></td>
+                <td>Displays active LLM model, git branch, message token volume, and MCP servers.</td>
+              </tr>
+              <tr>
+                <td><code class="code-pill">/model &lt;id&gt;</code></td>
+                <td><span class="status-badge badge-blue">Routing</span></td>
+                <td>Dynamically switches the active LLM (Claude 3.5 Sonnet, Gemini 2.5, GPT-4o, etc.).</td>
+              </tr>
+              <tr>
+                <td><code class="code-pill">/compact</code></td>
+                <td><span class="status-badge badge-emerald">Optimization</span></td>
+                <td>Compresses historical tool outputs to reclaim valuable model context space.</td>
+              </tr>
+              <tr>
+                <td><code class="code-pill">/mcp</code></td>
+                <td><span class="status-badge badge-blue">Integration</span></td>
+                <td>Lists connected Model Context Protocol servers and their exposed tools.</td>
+              </tr>
+              <tr>
+                <td><code class="code-pill">/clear</code></td>
+                <td><span class="status-badge badge-zinc">Session</span></td>
+                <td>Clears current chat history and refreshes repository context from disk.</td>
+              </tr>
+              <tr>
+                <td><code class="code-pill">/help</code></td>
+                <td><span class="status-badge badge-zinc">Guide</span></td>
+                <td>Prints full command palette and active tool descriptions in terminal.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── Quickstart Guide ──────────────────────────────────────────────── -->
+    <section class="quickstart-section" id="quickstart">
+      <div class="content-container">
+        <div class="section-title-wrap">
+          <div class="tag-badge">Get Started</div>
+          <h2 class="section-heading">Up and running in 30 seconds</h2>
+          <p class="section-subheading">Launch directly from your command line without cloning repositories.</p>
+        </div>
+
+        <div class="steps-grid">
+          <!-- Step 1 -->
+          <div class="step-card">
+            <div class="step-badge">1</div>
+            <h3 class="step-title">Run in any folder</h3>
+            <p class="step-text">Open your project directory in your terminal and execute:</p>
+            <div class="step-code">
+              <code>npx sudocode-ai</code>
+              <button class="step-copy-btn" data-copy="npx sudocode-ai">
+                <i data-lucide="copy" class="icon-xs"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="step-card">
+            <div class="step-badge">2</div>
+            <h3 class="step-title">Connect your API key</h3>
+            <p class="step-text">
+              On first launch, press <kbd class="kbd-key">o</kbd> to open <a href="https://openrouter.ai/keys" target="_blank" rel="noopener">openrouter.ai/keys</a>. Paste your key and it's saved in <code>~/.sudocode/config.json</code>.
+            </p>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="step-card">
+            <div class="step-badge">3</div>
+            <h3 class="step-title">Prompt & Iterate</h3>
+            <p class="step-text">
+              Ask SudoCode to fix bugs, refactor code, run test suites, or generate new files in real time.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── Call to Action ────────────────────────────────────────────────── -->
+    <section class="cta-section">
+      <div class="content-container">
+        <div class="cta-card">
+          <h2 class="cta-heading">Ready to code faster?</h2>
+          <p class="cta-text">Open-source, free to use, and compatible with any Node.js environment.</p>
+          <div class="cta-actions">
+            <button class="btn btn-primary" id="btn-cta-copy">
+              <i data-lucide="terminal" class="icon-xs"></i>
+              <span>npx sudocode-ai</span>
+            </button>
+            <a href="https://github.com/Nilesh020901/sudocode-cli-ai" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+              <i data-lucide="github" class="icon-xs"></i>
+              <span>Star on GitHub</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ─── Footer ──────────────────────────────────────────────────────────── -->
+  <footer class="site-footer">
+    <div class="content-container footer-content">
+      <div class="footer-left">
+        <div class="footer-brand">
+          <span class="brand-mascot-square mini"></span>
+          <span class="footer-name">SudoCode</span>
+        </div>
+        <p class="footer-desc">Claude-inspired terminal AI coding agent. Open source under the MIT License.</p>
+      </div>
+
+      <div class="footer-right">
+        <div class="footer-links-group">
+          <span class="group-title">Resources</span>
+          <a href="https://github.com/Nilesh020901/sudocode-cli-ai" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://openrouter.ai" target="_blank" rel="noopener">OpenRouter</a>
+          <a href="https://modelcontextprotocol.io" target="_blank" rel="noopener">MCP Protocol</a>
+        </div>
+        <div class="footer-links-group">
+          <span class="group-title">Community</span>
+          <a href="https://github.com/Nilesh020901/sudocode-cli-ai/issues" target="_blank" rel="noopener">Issues</a>
+          <a href="https://github.com/Nilesh020901/sudocode-cli-ai/releases" target="_blank" rel="noopener">Releases</a>
+          <a href="https://www.npmjs.com/package/sudocode-ai" target="_blank" rel="noopener">NPM Package</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Component -->
+  <div class="shadcn-toast" id="toast" role="status" aria-live="polite">
+    <i data-lucide="check" class="icon-xs toast-check"></i>
+    <span id="toast-message">Copied to clipboard</span>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

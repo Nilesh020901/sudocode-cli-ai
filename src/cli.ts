@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import path from 'path';
 import readline from 'readline/promises';
 import { stdin as input, stdout as output } from 'process';
@@ -6,22 +8,8 @@ import { PersistentTerminal } from './terminal.js';
 import { Tool, createBuiltinTools } from './tools.js';
 import { McpManager } from './mcp.js';
 import { runAgent, getSystemPrompt, compactMessages, ChatMessage, AgentConfig } from './agent.js';
-import { OPENROUTER_API_KEY, DEFAULT_MODEL, setModel } from './config.js';
-
-// ─── Banner ──────────────────────────────────────────────────────────────────
-
-function printBanner() {
-  console.log(chalk.hex('#6366F1')(`
- ____            _          ____          _      
-/ ___| _   _  __| | ___    / ___|___   __| | ___ 
-\\___ \\| | | |/ _\` |/ _ \\  | |   / _ \\ / _\` |/ _ \\
- ___) | |_| | (_| | (_) | | |__| (_) | (_| |  __/
-|____/ \\__,_|\\__,_|\\___/   \\____\\___/ \\__,_|\\___|
-`));
-  console.log(chalk.bold.hex('#6366F1')('  🚀 SudoCode — Terminal Coding Agent'));
-  console.log(chalk.dim(`  Model: ${DEFAULT_MODEL}`));
-  console.log(chalk.dim('  /help for commands · /plan for safety mode · Ctrl+C to exit\n'));
-}
+import { DEFAULT_MODEL, setModel, ensureApiKey } from './config.js';
+import { printBanner as printClaudeBanner, CLAUDE_CORAL, CLAUDE_TERRACOTTA, renderPromptString } from './ui.js';
 
 // ─── Help ────────────────────────────────────────────────────────────────────
 
@@ -30,20 +18,21 @@ function printHelp(tools: Tool[]) {
   const cmds = [
     ['/plan',    'Toggle Plan Mode (blocks write tools for safe planning)'],
     ['/auto',    'Toggle Auto-Approve (skip confirmation for write tools)'],
+    ['/status',  'Show current session status, model, and git branch'],
     ['/compact', 'Manually compact context to free token space'],
-    ['/model',   'Switch LLM model (e.g. /model google/gemini-2.5-pro)'],
+    ['/model',   'Switch LLM model (e.g. /model anthropic/claude-3.5-sonnet)'],
     ['/mcp',     'List connected MCP servers and their tools'],
-    ['/reset',   'Clear conversation history'],
+    ['/clear',   'Clear conversation history (alias: /reset)'],
     ['/help',    'Show this help'],
-    ['/exit',    'Quit SudoCode'],
+    ['/exit',    'Quit SudoCode (alias: /quit)'],
   ];
   for (const [cmd, desc] of cmds) {
-    console.log(`    ${chalk.hex('#6366F1')(cmd.padEnd(12))} ${chalk.dim(desc)}`);
+    console.log(`    ${chalk.hex(CLAUDE_CORAL)(cmd.padEnd(12))} ${chalk.dim(desc)}`);
   }
 
   console.log(chalk.bold('\n  Tools:'));
   for (const t of tools) {
-    console.log(`    ${chalk.yellow(t.name.padEnd(20))} ${chalk.dim(t.description.substring(0, 70))}`);
+    console.log(`    ${chalk.hex(CLAUDE_TERRACOTTA)(t.name.padEnd(20))} ${chalk.dim(t.description.substring(0, 70))}`);
   }
   console.log();
 }
@@ -51,16 +40,13 @@ function printHelp(tools: Tool[]) {
 // ─── Main ────────────────────────────────────────────────────────────────────
 
 async function main() {
-  if (!OPENROUTER_API_KEY || OPENROUTER_API_KEY === 'your_openrouter_api_key_here') {
-    console.error(chalk.red('\n❌ OPENROUTER_API_KEY is not configured.'));
-    console.log(chalk.dim('  Set it in .env and restart.\n'));
-    process.exit(1);
-  }
-
-  printBanner();
+  printClaudeBanner(DEFAULT_MODEL, process.cwd());
 
   // Create single persistent readline interface
   const rl = readline.createInterface({ input, output });
+
+  // Ensure user has an API key configured (prompts with link to openrouter.ai/keys if missing)
+  await ensureApiKey(rl);
 
   // Initialize services
   const terminal = new PersistentTerminal();
@@ -85,11 +71,11 @@ async function main() {
   const shutdown = async () => {
     if (isShuttingDown) return;
     isShuttingDown = true;
-    console.log(chalk.dim('\nShutting down...'));
+    console.log(chalk.dim('\n  Shutting down...'));
     rl.close();
     terminal.shutdown();
     await mcpManager.shutdown();
-    console.log(chalk.green('Goodbye!'));
+    console.log(chalk.green('  Goodbye!'));
     process.exit(0);
   };
 
@@ -100,10 +86,7 @@ async function main() {
 
   while (true) {
     const cwd = terminal.getCwd();
-    const displayPath = path.basename(cwd);
-    const modeTag = planMode ? chalk.red(' (plan)') : '';
-    const autoTag = autoApprove ? chalk.yellow(' (auto)') : '';
-    const promptStr = `${chalk.dim(displayPath)}${modeTag}${autoTag} ${chalk.hex('#6366F1')('❯')} `;
+    const promptStr = renderPromptString(cwd, planMode, autoApprove);
 
     let userInput = '';
     try {
@@ -131,19 +114,33 @@ async function main() {
 
     if (trimmed === '/plan') {
       planMode = !planMode;
-      console.log(chalk.magenta(`Plan Mode: ${planMode ? 'ON (write tools blocked)' : 'OFF'}`));
+      console.log(chalk.magenta(`  Plan Mode: ${planMode ? 'ON (write tools blocked)' : 'OFF'}`));
       continue;
     }
 
     if (trimmed === '/auto') {
       autoApprove = !autoApprove;
-      console.log(chalk.yellow(`Auto-Approve: ${autoApprove ? 'ON ⚡ (all tools run without confirmation)' : 'OFF (write tools require confirmation)'}`));
+      console.log(chalk.yellow(`  Auto-Approve: ${autoApprove ? 'ON ⚡ (tools execute without confirmation)' : 'OFF'}`));
       continue;
     }
 
-    if (trimmed === '/reset') {
+    if (trimmed === '/status') {
+      const folder = path.basename(cwd) || cwd;
+      console.log();
+      console.log(chalk.bold.hex(CLAUDE_CORAL)('  ⚡ SudoCode Session Status'));
+      console.log(`  ${chalk.dim('Model:')}        ${chalk.hex(CLAUDE_TERRACOTTA)(DEFAULT_MODEL)}`);
+      console.log(`  ${chalk.dim('Workspace:')}    ${chalk.cyan(folder)} (${cwd})`);
+      console.log(`  ${chalk.dim('Messages:')}     ${messages.length} messages in context`);
+      console.log(`  ${chalk.dim('Plan Mode:')}    ${planMode ? chalk.green('ON') : chalk.dim('OFF')}`);
+      console.log(`  ${chalk.dim('Auto-Approve:')} ${autoApprove ? chalk.yellow('ON ⚡') : chalk.dim('OFF')}`);
+      console.log(`  ${chalk.dim('MCP Servers:')}  ${mcpCount} connected`);
+      console.log();
+      continue;
+    }
+
+    if (trimmed === '/reset' || trimmed === '/clear') {
       messages = [{ role: 'system', content: getSystemPrompt() }];
-      console.log(chalk.green('Session history cleared.'));
+      console.log(chalk.green('  ✔ Conversation history cleared.'));
       continue;
     }
 
@@ -152,18 +149,18 @@ async function main() {
       const compacted = compactMessages(messages);
       messages.length = 0;
       messages.push(...compacted);
-      console.log(chalk.green(`Compacted: ${before} → ${messages.length} messages.`));
+      console.log(chalk.green(`  ✔ Compacted: ${before} → ${messages.length} messages.`));
       continue;
     }
 
     if (trimmed.startsWith('/model')) {
       const newModel = trimmed.substring(6).trim();
       if (!newModel) {
-        console.log(chalk.dim(`Current model: ${DEFAULT_MODEL}`));
-        console.log(chalk.dim('Usage: /model <model-name>'));
+        console.log(chalk.dim(`  Current model: ${DEFAULT_MODEL}`));
+        console.log(chalk.dim('  Usage: /model <model-name>'));
       } else {
         setModel(newModel);
-        console.log(chalk.green(`Model switched to: ${newModel}`));
+        console.log(chalk.green(`  ✔ Model switched to: ${newModel}`));
       }
       continue;
     }
@@ -183,7 +180,7 @@ async function main() {
     }
 
     if (trimmed.startsWith('/')) {
-      console.log(chalk.red(`Unknown command: ${trimmed}. Type /help for available commands.`));
+      console.log(chalk.red(`  Unknown command: ${trimmed}. Type /help for available commands.`));
       continue;
     }
 
@@ -199,8 +196,10 @@ async function main() {
 
     try {
       await runAgent(messages, allTools, config, rl);
+      // Persist auto-approval if granted via permission dialog
+      autoApprove = config.autoApprove;
     } catch (err: any) {
-      console.error(chalk.red(`\n❌ Error: ${err.message}`));
+      console.error(chalk.red(`\n  ❌ Error: ${err.message}`));
     }
   }
 }
