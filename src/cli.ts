@@ -20,7 +20,7 @@ function printHelp(tools: Tool[]) {
     ['/auto',    'Toggle Auto-Approve (skip confirmation for write tools)'],
     ['/status',  'Show current session status, model, and git branch'],
     ['/compact', 'Manually compact context to free token space'],
-    ['/model',   'Switch LLM model (e.g. /model anthropic/claude-3.5-sonnet)'],
+    ['/model',   'Switch LLM model (e.g. /model poolside/laguna-s-2.1:free)'],
     ['/mcp',     'List connected MCP servers and their tools'],
     ['/clear',   'Clear conversation history (alias: /reset)'],
     ['/help',    'Show this help'],
