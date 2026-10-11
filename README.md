@@ -6,15 +6,11 @@ SudoCode is an agentic coding tool that lives in your terminal, understands your
 
 **Learn more in the [official documentation and live web demo](https://nilesh020901.github.io/sudocode-cli-ai/)**.
 
-```
-    ████████████████      ⚡ SudoCode v1.1.2 — Terminal AI Coding Agent
-    ██  ████████  ██      ──────────────────────────────────────────────────────────────
-████████████████████████  Model:     anthropic/claude-3.5-sonnet
-████████████████████████  Workspace: sudocode (main)
-    ████████████████      Status:    ● Ready to code
-    ██  ██    ██  ██      Commands:  /help · /plan · /auto · /compact
-    ██  ██    ██  ██      Controls:  Ctrl+C to quit · /reset to clear history
-```
+<p align="center">
+  <a href="https://nilesh020901.github.io/sudocode-cli-ai/">
+    <img src="https://raw.githubusercontent.com/Nilesh020901/sudocode-cli-ai/main/assets/banner.svg" alt="SudoCode Terminal" width="100%">
+  </a>
+</p>
 
 ---
 

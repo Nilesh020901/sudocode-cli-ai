@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 280" width="100%" height="280">
+  <defs>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0c0c12"/>
+      <stop offset="100%" stop-color="#07080c"/>
+    </linearGradient>
+    <filter id="purpleGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <style>
+    .mono { font-family: 'Geist Mono', 'Cascadia Code', 'JetBrains Mono', 'Fira Code', Menlo, monospace; }
+    .title { font-weight: 700; font-size: 14px; fill: #b82be2; }
+    .ver { font-weight: 500; font-size: 13px; fill: #94a3b8; }
+    .rule { stroke: #27272a; stroke-width: 1; stroke-dasharray: 4,4; }
+    .label { font-size: 13px; fill: #94a3b8; }
+    .val-coral { font-size: 13px; fill: #d946ef; font-weight: 600; }
+    .val-cyan { font-size: 13px; fill: #38bdf8; font-weight: 600; }
+    .val-green { font-size: 13px; fill: #34d399; font-weight: 600; }
+    .val-dim { font-size: 12px; fill: #64748b; }
+    .cmd { font-size: 12px; fill: #c084fc; font-weight: 600; }
+    .pixel { fill: #b82be2; }
+  </style>
+
+  <!-- Terminal Window Outer Card -->
+  <rect x="2" y="2" width="836" height="276" rx="12" fill="url(#cardGrad)" stroke="#27272a" stroke-width="1.5"/>
+
+  <!-- Window Header Bar -->
+  <path d="M 2 14 Q 2 2 14 2 L 826 2 Q 838 2 838 14 L 838 38 L 2 38 Z" fill="#12131a" stroke="#27272a" stroke-width="1"/>
+  
+  <!-- Window Controls -->
+  <circle cx="20" cy="20" r="5.5" fill="#ef4444"/>
+  <circle cx="38" cy="20" r="5.5" fill="#f59e0b"/>
+  <circle cx="56" cy="20" r="5.5" fill="#10b981"/>
+  
+  <!-- Window Title -->
+  <text x="420" y="24" text-anchor="middle" class="mono" font-size="12" fill="#71717a">sudocode-ai — bash — 110x35</text>
+
+  <!-- ─── 8-Bit Pixel Mascot (Image 2 Precise Layout) ────────────────────────── -->
+  <!-- Origin at (x=40, y=65). Grid: 12 columns, 7 rows. Cell: w=14, h=22, gap=2 -->
+  <g transform="translate(42, 64)">
+    <!-- Row 0: Flat Forehead (Cols 2..9, 8 blocks) -->
+    <rect x="32" y="0" width="126" height="22" rx="2" class="pixel"/>
+
+    <!-- Row 1: Eyes (Col 2..3 solid, Col 4..5 eyes, Col 6..7 eyes, Col 8..9 solid) -->
+    <!-- Col 2: Left eye border -->
+    <rect x="32" y="25" width="14" height="22" rx="2" class="pixel"/>
+    <!-- Eye Left cutout is between 48 and 62 -->
+    <!-- Cols 4,5,6,7: Center forehead -->
+    <rect x="64" y="25" width="62" height="22" rx="2" class="pixel"/>
+    <!-- Eye Right cutout is between 128 and 142 -->
+    <!-- Col 9: Right eye border -->
+    <rect x="144" y="25" width="14" height="22" rx="2" class="pixel"/>
+
+    <!-- Row 2: Arms Upper (Cols 0..11, 12 blocks wide) -->
+    <rect x="0" y="50" width="190" height="22" rx="2" class="pixel"/>
+
+    <!-- Row 3: Arms Lower (Cols 0..11, 12 blocks wide) -->
+    <rect x="0" y="75" width="190" height="22" rx="2" class="pixel"/>
+
+    <!-- Row 4: Torso (Cols 2..9, 8 blocks wide) -->
+    <rect x="32" y="100" width="126" height="22" rx="2" class="pixel"/>
+
+    <!-- Row 5: Legs Upper (4 Legs) -->
+    <rect x="32" y="125" width="14" height="22" rx="2" class="pixel"/>
+    <rect x="64" y="125" width="14" height="22" rx="2" class="pixel"/>
+    <rect x="112" y="125" width="14" height="22" rx="2" class="pixel"/>
+    <rect x="144" y="125" width="14" height="22" rx="2" class="pixel"/>
+
+    <!-- Row 6: Legs Lower (4 Legs) -->
+    <rect x="32" y="150" width="14" height="22" rx="2" class="pixel"/>
+    <rect x="64" y="150" width="14" height="22" rx="2" class="pixel"/>
+    <rect x="112" y="150" width="14" height="22" rx="2" class="pixel"/>
+    <rect x="144" y="150" width="14" height="22" rx="2" class="pixel"/>
+  </g>
+
+  <!-- ─── Side Info (Terminal Metadata) ────────────────────────────────────── -->
+  <g transform="translate(265, 68)" class="mono">
+    <!-- Header Title -->
+    <text x="0" y="16" class="title">⚡ SudoCode <tspan class="ver">v1.1.3 — Terminal AI Coding Agent</tspan></text>
+    
+    <!-- Rule -->
+    <line x1="0" y1="32" x2="535" y2="32" class="rule"/>
+    
+    <!-- Model -->
+    <text x="0" y="58" class="label">Model:     <tspan class="val-coral">anthropic/claude-3.5-sonnet</tspan></text>
+    
+    <!-- Workspace -->
+    <text x="0" y="86" class="label">Workspace: <tspan class="val-cyan">sudocode</tspan> <tspan class="val-coral">(main)</tspan> <tspan class="val-dim">· D:\sudocode</tspan></text>
+    
+    <!-- Status -->
+    <text x="0" y="114" class="label">Status:    <tspan class="val-green">● Ready to code</tspan></text>
+    
+    <!-- Commands -->
+    <text x="0" y="146" class="label">Commands:  <tspan class="cmd">/help</tspan> <tspan fill="#475569">·</tspan> <tspan class="cmd">/plan</tspan> <tspan fill="#475569">·</tspan> <tspan class="cmd">/auto</tspan> <tspan fill="#475569">·</tspan> <tspan class="cmd">/compact</tspan></text>
+    
+    <!-- Controls -->
+    <text x="0" y="172" class="val-dim">Controls:  Ctrl+C to quit · /reset to clear history</text>
+  </g>
+</svg>
