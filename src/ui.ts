@@ -65,7 +65,7 @@ export function printBanner(modelName: string, cwd: string) {
   const branchInfo = branch ? ` ${chalk.dim('(')}${chalk.bold.hex(CLAUDE_TERRACOTTA)(branch)}${chalk.dim(')')}` : '';
 
   const sideInfo = [
-    chalk.bold.hex(CLAUDE_CORAL)('  ⚡ SudoCode') + chalk.dim(' v1.1.3') + chalk.hex(CLAUDE_MUTED)(' — Terminal Coding Agent (Claude-Mode)'),
+    chalk.bold.hex(CLAUDE_CORAL)('  ⚡ SudoCode') + chalk.dim(' v1.1.4') + chalk.hex(CLAUDE_MUTED)(' — Terminal Coding Agent (Claude-Mode)'),
     chalk.dim('  ──────────────────────────────────────────────────────────────'),
     chalk.white('  Model:     ') + chalk.hex(CLAUDE_TERRACOTTA)(modelName),
     chalk.white('  Workspace: ') + chalk.cyan(folderName) + branchInfo + chalk.dim(` · ${cwd}`),
