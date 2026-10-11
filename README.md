@@ -70,7 +70,7 @@ Inside the SudoCode terminal session, use slash commands to control execution:
 | `/auto` | Toggle **Auto-Approve** (skip manual confirmation prompts for write tools) |
 | `/status` | Display active session info, model, git branch, and context status |
 | `/compact` | Manually compress conversation history to free context tokens |
-| `/model <id>` | Switch LLM model on the fly (e.g. `anthropic/claude-3.5-sonnet`, `openai/gpt-4o`, `) |
+| `/model <id>` | Switch LLM model on the fly (e.g. `anthropic/claude-3.5-sonnet`, `openai/gpt-4o`, `poolside/laguna-s-2.1:free`) |
 | `/mcp` | List all connected Model Context Protocol servers and their tools |
 | `/clear` | Clear the current conversation history (alias: `/reset`) |
 | `/exit` | Exit SudoCode session (alias: `/quit` or `Ctrl+C`) |

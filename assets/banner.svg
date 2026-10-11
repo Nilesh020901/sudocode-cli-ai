@@ -85,7 +85,7 @@
     <line x1="0" y1="32" x2="535" y2="32" class="rule"/>
     
     <!-- Model -->
-    <text x="0" y="58" class="label">Model:     <tspan class="val-coral">anthropic/claude-3.5-sonnet</tspan></text>
+    <text x="0" y="58" class="label">Model:     <tspan class="val-coral">poolside/laguna-s-2.1:free</tspan></text>
     
     <!-- Workspace -->
     <text x="0" y="86" class="label">Workspace: <tspan class="val-cyan">sudocode</tspan> <tspan class="val-coral">(main)</tspan> <tspan class="val-dim">· D:\sudocode</tspan></text>
