@@ -8,8 +8,18 @@
     "sudocode": "dist/cli.js",
     "sudocode-ai": "dist/cli.js"
   },
+  "homepage": "https://nilesh020901.github.io/sudocode-cli-ai/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nilesh020901/sudocode-cli-ai.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Nilesh020901/sudocode-cli-ai/issues"
+  },
+  "author": "Nilesh <https://github.com/Nilesh020901>",
   "files": [
-    "dist"
+    "dist",
+    "README.md"
   ],
   "scripts": {
     "build": "tsc",
