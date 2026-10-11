@@ -32,15 +32,13 @@ export function getGitBranch(): string {
 
 export function getMascotLines(): string[] {
   const C = chalk.hex(CLAUDE_CORAL)('██');
-  const E = chalk.hex(CLAUDE_DARK)('██');
   const _ = '  ';
 
   return [
     `${_}${_}${C}${C}${C}${C}${C}${C}${C}${C}${_}${_}`,
-    `${_}${_}${C}${E}${C}${C}${C}${C}${E}${C}${_}${_}`,
+    `${_}${_}${C}${_}${C}${C}${C}${C}${_}${C}${_}${_}`,
     `${C}${C}${C}${C}${C}${C}${C}${C}${C}${C}${C}${C}`,
     `${C}${C}${C}${C}${C}${C}${C}${C}${C}${C}${C}${C}`,
-    `${_}${_}${C}${C}${C}${C}${C}${C}${C}${C}${_}${_}`,
     `${_}${_}${C}${C}${C}${C}${C}${C}${C}${C}${_}${_}`,
     `${_}${_}${C}${_}${C}${_}${_}${C}${_}${C}${_}${_}`,
     `${_}${_}${C}${_}${C}${_}${_}${C}${_}${C}${_}${_}`,
@@ -50,29 +48,37 @@ export function getMascotLines(): string[] {
 // ─── Startup Banner ──────────────────────────────────────────────────────────
 
 export function printBanner(modelName: string, cwd: string) {
+  // Clear screen and reset cursor so the full mascot starts cleanly at top row
+  try {
+    if (process.stdout.isTTY) {
+      process.stdout.write('\x1Bc');
+    } else {
+      console.clear();
+    }
+  } catch {
+    console.clear();
+  }
+
   const mascot = getMascotLines();
   const folderName = path.basename(cwd) || cwd;
   const branch = getGitBranch();
   const branchInfo = branch ? ` ${chalk.dim('(')}${chalk.bold.hex(CLAUDE_TERRACOTTA)(branch)}${chalk.dim(')')}` : '';
 
   const sideInfo = [
-    chalk.bold.hex(CLAUDE_CORAL)('  ⚡ SudoCode') + chalk.dim(' v1.1.0') + chalk.hex(CLAUDE_MUTED)(' — Terminal Coding Agent (Claude-Mode)'),
+    chalk.bold.hex(CLAUDE_CORAL)('  ⚡ SudoCode') + chalk.dim(' v1.1.1') + chalk.hex(CLAUDE_MUTED)(' — Terminal Coding Agent (Claude-Mode)'),
     chalk.dim('  ──────────────────────────────────────────────────────────────'),
     chalk.white('  Model:     ') + chalk.hex(CLAUDE_TERRACOTTA)(modelName),
     chalk.white('  Workspace: ') + chalk.cyan(folderName) + branchInfo + chalk.dim(` · ${cwd}`),
     chalk.white('  Status:    ') + chalk.hex(CLAUDE_SUCCESS)('● Ready to code'),
-    chalk.dim('  ──────────────────────────────────────────────────────────────'),
     chalk.dim('  Commands:  ') + chalk.hex(CLAUDE_CORAL)('/help') + chalk.dim(' · ') + chalk.hex(CLAUDE_CORAL)('/plan') + chalk.dim(' · ') + chalk.hex(CLAUDE_CORAL)('/auto') + chalk.dim(' · ') + chalk.hex(CLAUDE_CORAL)('/compact'),
     chalk.dim('  Controls:  ') + chalk.dim('Ctrl+C to quit · /reset to clear history'),
   ];
 
-  console.log();
   for (let i = 0; i < mascot.length; i++) {
     const left = mascot[i];
     const right = sideInfo[i] || '';
     console.log(`${left}${right}`);
   }
-  console.log();
 }
 
 // ─── Claude Starburst Animated Spinner ───────────────────────────────────────
