@@ -1,104 +1,104 @@
-# ⚡ SudoCode (`sudocode-ai`)
+# SudoCode
 
-<div align="center">
+![](https://img.shields.io/badge/Node.js-18%2B-38BDF8?style=flat-square&logo=node.js) [![npm](https://img.shields.io/npm/v/sudocode-ai.svg?style=flat-square&color=b82be2&logo=npm)](https://www.npmjs.com/package/sudocode-ai) [![License](https://img.shields.io/badge/License-MIT-34D399?style=flat-square)](LICENSE) [![MCP](https://img.shields.io/badge/MCP-Protocol%20Native-b82be2?style=flat-square)](https://modelcontextprotocol.io)
+
+SudoCode is an agentic coding tool that lives in your terminal, understands your codebase, and helps you code faster by executing routine tasks, explaining complex architectures, editing files, and running commands — all through natural language commands and an iconic retro 8-bit terminal interface.
+
+**Learn more in the [official documentation and live web demo](https://nilesh020901.github.io/sudocode-cli-ai/)**.
 
 ```
-    ████████████████      ⚡ SudoCode v1.1.2
-    ██  ████████  ██      Terminal AI Coding Agent (Claude-Mode)
-████████████████████████  Built for developers who live in the terminal
-████████████████████████  Native MCP · 8-Bit UI · Context Compaction
-    ████████████████      
-    ██  ██    ██  ██      🌐 Website: https://nilesh020901.github.io/sudocode-cli-ai/
-    ██  ██    ██  ██      📦 NPM: https://www.npmjs.com/package/sudocode-ai
+    ████████████████      ⚡ SudoCode v1.1.2 — Terminal AI Coding Agent
+    ██  ████████  ██      ──────────────────────────────────────────────────────────────
+████████████████████████  Model:     anthropic/claude-3.5-sonnet
+████████████████████████  Workspace: sudocode (main)
+    ████████████████      Status:    ● Ready to code
+    ██  ██    ██  ██      Commands:  /help · /plan · /auto · /compact
+    ██  ██    ██  ██      Controls:  Ctrl+C to quit · /reset to clear history
 ```
-
-[![NPM Version](https://img.shields.io/npm/v/sudocode-ai?color=b82be2&logo=npm)](https://www.npmjs.com/package/sudocode-ai)
-[![License: MIT](https://img.shields.io/badge/License-MIT-34D399.svg)](LICENSE)
-[![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-38BDF8?logo=node.js)](https://nodejs.org)
-[![MCP Protocol](https://img.shields.io/badge/MCP-Native%20Protocol-b82be2)](https://modelcontextprotocol.io)
-
-**An open-source, terminal-native AI coding agent engineered for flow, speed, and clean output.**  
-Inspired by Claude Code with retro 8-bit pixel art, real-time starburst thinking loaders, tree-node execution trees, and native Model Context Protocol (MCP) support.
-
-[🌐 Live Documentation & Demo](https://nilesh020901.github.io/sudocode-cli-ai/) • [📦 NPM Package](https://www.npmjs.com/package/sudocode-ai) • [🐛 Report Bug](https://github.com/Nilesh020901/sudocode-cli-ai/issues)
-
-</div>
 
 ---
 
-## ⚡ Quick Start
+## Get started
 
-You don't even need to install it globally. Run instantly with `npx`:
+### 1. Run instantly with npx (Recommended)
+Zero installation required. Runs directly in any repository:
 
 ```bash
 npx sudocode-ai
 ```
 
-Or install globally via npm:
+### 2. Global Installation (Optional)
+If you prefer having the `sudocode` command available globally in your shell:
 
 ```bash
 npm install -g sudocode-ai
 ```
 
-Then run in any project directory:
+Then launch it in any project directory:
 
 ```bash
 sudocode
 ```
 
-> **🔑 First Run:** SudoCode will ask for your [OpenRouter API Key](https://openrouter.ai/keys) and securely save it to `~/.sudocode/config.json`. Any model (Claude 3.5 Sonnet, GPT-4o, Gemini 2.5, DeepSeek, etc.) is supported!
+### 3. Authentication
+On your first run, SudoCode will ask for your [OpenRouter API Key](https://openrouter.ai/keys) and securely save it to `~/.sudocode/config.json`.
+
+Alternatively, export the environment variable:
+
+```bash
+export OPENROUTER_API_KEY="sk-or-v1-..."
+```
 
 ---
 
-## ✨ Key Features
+## What SudoCode can do
 
-- **👾 Retro 8-Bit Pixel Mascot**: Iconic ASCII brand header with high-contrast coral/purple terminal palette.
-- **✨ Claude Starburst Thinking Loader**: Real-time geometric diamond animation (`·` → `⋄` → `◇` → `◈` → `◆`) with live duration timers.
-- **🌲 Tree-Node Execution Logging**: Clean hierarchical tool output (`● Tool(...) ⎿ Result`) keeping your workspace uncluttered.
-- **🛡️ Plan Mode (`/plan`)**: Safe read-only architectural planning mode that blocks write tools until you are ready.
-- **⚡ Auto-Approve Mode (`/auto`)**: Toggle session-wide automatic execution for trusted rapid tasks.
-- **🧠 Context Compaction (`/compact`)**: Automatic context summarization when conversation token limits are approached.
-- **🔌 Native MCP Support (`mcp_config.json`)**: Connect external MCP servers (PostgreSQL, GitHub, Brave Search, FileSystems) directly into the agent.
-- **🔀 Multi-Model Flexibility (`/model`)**: Switch LLMs on the fly with a single command.
+* **Explore and Understand Codebases**: Ask questions about system architecture, trace control flows, search symbols, and locate relevant files across large repositories.
+* **Edit Files and Fix Bugs**: Autonomously read, write, and apply surgical edits across multiple files while preserving code style and comments.
+* **Run Commands and Tests**: Execute shell commands, linters, and test suites with real-time stdout streaming and smart error recovery.
+* **Plan Mode (`/plan`)**: Safely plan complex multi-step refactors without touching disk until you approve.
+* **Auto-Approve (`/auto`)**: Enable hands-free autonomous workflows for trusted sessions.
+* **Context Compaction (`/compact`)**: Automatically summarize and trim conversation history when approaching model token limits.
+* **Native MCP Integration**: Connect third-party Model Context Protocol servers (databases, GitHub, web search, custom APIs) via `mcp_config.json`.
 
 ---
 
-## 🕹️ Interactive Commands
+## Interactive Slash Commands
 
-Inside the SudoCode prompt, type `/` to access commands:
+Inside the SudoCode terminal session, use slash commands to control execution:
 
 | Command | Description |
 | :--- | :--- |
-| `/help` | Display interactive command palette and available tool definitions |
-| `/plan` | Toggle **Plan Mode** (disables write tools for safe architectural planning) |
-| `/auto` | Toggle **Auto-Approve** (executes write tools without asking for confirmation) |
-| `/status` | View current LLM model, git branch, active workspace, and token usage |
+| `/help` | View full command palette and tool descriptions |
+| `/plan` | Toggle **Plan Mode** (blocks write tools for safe, risk-free planning) |
+| `/auto` | Toggle **Auto-Approve** (skip manual confirmation prompts for write tools) |
+| `/status` | Display active session info, model, git branch, and context status |
 | `/compact` | Manually compress conversation history to free context tokens |
-| `/model <id>` | Switch the active model (e.g. `anthropic/claude-3.5-sonnet`, `openai/gpt-4o`) |
-| `/mcp` | List all connected Model Context Protocol servers and their exposed tools |
+| `/model <id>` | Switch LLM model on the fly (e.g. `anthropic/claude-3.5-sonnet`, `openai/gpt-4o`) |
+| `/mcp` | List all connected Model Context Protocol servers and their tools |
 | `/clear` | Clear the current conversation history (alias: `/reset`) |
-| `/exit` | Exit the CLI session (alias: `/quit` or `Ctrl+C`) |
+| `/exit` | Exit SudoCode session (alias: `/quit` or `Ctrl+C`) |
 
 ---
 
-## 🛠️ Built-in Tool Ecosystem
+## Built-in Developer Tools
 
-SudoCode autonomously inspects, reasons, and executes changes using precision developer tools:
+SudoCode interacts with your local environment through a specialized set of developer tools:
 
-* **`execute_command`**: Runs terminal shell commands (builds, tests, git commits, package installs) with live stdout streaming.
-* **`read_file`**: Reads source code files with line numbering and slice windowing.
-* **`write_file`**: Creates new files and directories atomically.
-* **`edit_file`**: Surgical string matching and replacement to preserve existing code structure and comments.
-* **`list_files`**: Recursively inspects file trees and workspace directories.
-* **`grep`**: Ripgrep-powered exact and regex pattern matching across the repository.
-* **`workspace_search`**: High-level semantic file and identifier lookup.
-* **`todo_write`**: Manages interactive task checklists for multi-step feature implementation.
+* **`read_file`**: Reads file content with precise line slicing and offsets.
+* **`edit_file`**: Applies surgical, non-destructive string replacements to existing files.
+* **`write_file`**: Creates new source files or overwrites existing content.
+* **`list_files`**: Explores directory hierarchies and workspace trees.
+* **`execute_command`**: Runs persistent terminal commands with live streaming output.
+* **`grep`**: Fast pattern matching across your entire workspace.
+* **`workspace_search`**: Semantic discovery for functions, classes, and components.
+* **`todo_write`**: Manages interactive multi-phase execution checklists.
 
 ---
 
-## 🔌 Model Context Protocol (MCP)
+## Model Context Protocol (MCP)
 
-To connect custom MCP tools, create an `mcp_config.json` file in your project or home directory:
+Extend SudoCode with custom external tools by creating an `mcp_config.json` in your project or home directory:
 
 ```json
 {
@@ -107,7 +107,7 @@ To connect custom MCP tools, create an `mcp_config.json` file in your project or
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-github"],
       "env": {
-        "GITHUB_PERSONAL_ACCESS_TOKEN": "your_token_here"
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "ghp_..."
       }
     },
     "postgres": {
@@ -118,38 +118,19 @@ To connect custom MCP tools, create an `mcp_config.json` file in your project or
 }
 ```
 
-SudoCode will automatically discover the servers on startup and expose their tools to the model.
+SudoCode automatically connects to your servers on startup and exposes their tools directly to the model.
 
 ---
 
-## ⚙️ Configuration
+## Links & Community
 
-SudoCode stores settings in `~/.sudocode/config.json`:
-
-```json
-{
-  "apiKey": "sk-or-v1-...",
-  "defaultModel": "anthropic/claude-3.5-sonnet"
-}
-```
-
-You can also provide the key using an environment variable:
-
-```bash
-export OPENROUTER_API_KEY="sk-or-v1-..."
-```
-
----
-
-## 🌐 Official Links
-
-- **Documentation & Live Web Simulator**: [https://nilesh020901.github.io/sudocode-cli-ai/](https://nilesh020901.github.io/sudocode-cli-ai/)
+- **Official Website & Interactive Simulator**: [https://nilesh020901.github.io/sudocode-cli-ai/](https://nilesh020901.github.io/sudocode-cli-ai/)
 - **GitHub Repository**: [https://github.com/Nilesh020901/sudocode-cli-ai](https://github.com/Nilesh020901/sudocode-cli-ai)
 - **NPM Package**: [https://www.npmjs.com/package/sudocode-ai](https://www.npmjs.com/package/sudocode-ai)
-- **Issue Tracker**: [https://github.com/Nilesh020901/sudocode-cli-ai/issues](https://github.com/Nilesh020901/sudocode-cli-ai/issues)
+- **Issue Tracker & Feature Requests**: [https://github.com/Nilesh020901/sudocode-cli-ai/issues](https://github.com/Nilesh020901/sudocode-cli-ai/issues)
 
 ---
 
-## 📄 License
+## License
 
-Released under the **MIT License**. Created with ❤️ by [Nilesh](https://github.com/Nilesh020901).
+MIT © [Nilesh](https://github.com/Nilesh020901)
