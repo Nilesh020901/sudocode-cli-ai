@@ -3,7 +3,7 @@
 <div align="center">
 
 ```
-    ████████████████      ⚡ SudoCode v1.1.1
+    ████████████████      ⚡ SudoCode v1.1.2
     ██  ████████  ██      Terminal AI Coding Agent (Claude-Mode)
 ████████████████████████  Built for developers who live in the terminal
 ████████████████████████  Native MCP · 8-Bit UI · Context Compaction
