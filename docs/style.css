@@ -217,6 +217,42 @@ body {
   color: hsl(var(--foreground));
 }
 
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-npm-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background-color: hsl(var(--secondary));
+  border: 1px solid hsl(var(--border));
+  color: hsl(var(--foreground));
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: var(--radius);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  transition: all 0.15s ease;
+}
+
+.btn-npm-pill:hover {
+  background-color: hsla(var(--accent) / 0.8);
+  border-color: #CB3837;
+  color: #FFFFFF;
+}
+
+.npm-badge-ver {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: hsl(var(--muted-foreground));
+  background-color: rgba(255, 255, 255, 0.06);
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
 .btn-github-pill {
   display: inline-flex;
   align-items: center;
@@ -241,6 +277,43 @@ body {
   color: var(--amber);
   font-size: 0.75rem;
   margin-left: 2px;
+}
+
+.btn-npm-hero {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 10px 18px;
+  border-radius: var(--radius);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+  background-color: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  color: hsl(var(--foreground));
+}
+
+.btn-npm-hero:hover {
+  background-color: hsl(var(--muted));
+  border-color: #CB3837;
+  color: #FFFFFF;
+  transform: translateY(-1px);
+}
+
+.subtext-npm-link {
+  color: hsl(var(--foreground));
+  text-decoration: underline;
+  text-decoration-color: rgba(203, 56, 55, 0.6);
+  transition: all 0.15s ease;
+}
+
+.subtext-npm-link:hover {
+  color: #CB3837;
+  text-decoration-color: #CB3837;
 }
 
 /* ─── shadcn Hero Section ─────────────────────────────────────────────────── */
