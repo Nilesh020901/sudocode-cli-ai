@@ -5,8 +5,8 @@
   "main": "dist/cli.js",
   "type": "module",
   "bin": {
-    "sudocode": "./dist/cli.js",
-    "sudocode-ai": "./dist/cli.js"
+    "sudocode": "dist/cli.js",
+    "sudocode-ai": "dist/cli.js"
   },
   "files": [
     "dist"
